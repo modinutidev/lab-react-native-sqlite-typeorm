@@ -1,9 +1,12 @@
-import {Text} from 'react-native';
+import React from 'react';
+import {useEffect} from 'react';
+import {db} from './src/DataSource';
+import Teste from './src/Teste';
 
 export default function App() {
-  return (
-    <>
-      <Text>Olá Mundo</Text>
-    </>
-  );
+  useEffect(() => {
+    db;
+  }, []);
+
+  return <Teste />;
 }
