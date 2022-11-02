@@ -1,9 +1,10 @@
 import {useState} from 'react';
-import {Button, Text, TextInput} from 'react-native';
+import {Button, FlatList, Text, TextInput} from 'react-native';
 import {db} from './DataSource';
 
 export default function Teste() {
   const [codigo, setCodigo] = useState('Vamos Lá');
+  const [results, setResults] = useState([]);
 
   async function submit() {
     const conn = await db;
@@ -11,8 +12,13 @@ export default function Teste() {
       .getRepository('Ativos')
       .save({codigo, quantidade: 1, valor: 10.9});
     const resultados = await conn.getRepository('Ativos').find();
+    setResults(resultados);
     console.log(resultados);
   }
+
+  const itemDeLista = ({item}) => {
+    return <Text>{item.codigo}</Text>;
+  };
 
   return (
     <>
@@ -29,6 +35,11 @@ export default function Teste() {
         onChangeText={text => setCodigo(text)}
       />
       <Button title="teste" onPress={submit} />
+      <FlatList
+        data={results}
+        renderItem={itemDeLista}
+        keyExtractor={dado => dado.id}
+      />
     </>
   );
 }
